@@ -40,7 +40,7 @@ To start answering questions about the dvdrental database, use the provided SQL 
 We welcome contributions! If you have suggestions for more accurate or clear questions, please feel free to submit a pull request.
 
 ## Contact
-o
+
 If you have any questions, please open an issue or contact us at ibis.furkann@gmail.com.
 
 Thank you for your interest in this project!
