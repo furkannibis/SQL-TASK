@@ -88,9 +88,7 @@ GROUP BY
     3
 ORDER BY
     1,
-    2
-
--- Find the least rented movies in each category and list them with their rental counts.
+    2 -- Find the least rented movies in each category and list them with their rental counts.
     WITH least_rental_count AS (
         SELECT
             c.name AS category,
@@ -121,6 +119,21 @@ WHERE
     row_number = 1;
 
 -- Identify the top 10 movies by rental revenue and list their total earnings.
+SELECT
+    f.title,
+    SUM(p.amount) AS total_amount
+FROM
+    film AS f
+    JOIN inventory AS i ON i.film_id = f.film_id
+    JOIN rental AS r ON r.inventory_id = i.inventory_id
+    JOIN payment AS p ON p.rental_id = r.rental_id
+GROUP BY
+    f.title
+ORDER BY
+    2 DESC
+LIMIT
+    10;
+
 -- Calculate the average rental duration for each customer and list the top 10 customers with the longest average rental durations.
 -- Compute the total rental duration for each movie and identify the movies rented for the longest total duration.
 -- Identify the most rented category in the last 6 months and list the total rentals for that category.
