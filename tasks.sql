@@ -135,6 +135,21 @@ LIMIT
     10;
 
 -- Calculate the average rental duration for each customer and list the top 10 customers with the longest average rental durations.
+SELECT
+    c.first_name,
+    c.last_name,
+    AVG(r.return_date - r.rental_date) AS average_rental_duration
+FROM
+    rental AS r
+    JOIN customer AS c ON c.customer_id = r.customer_id
+GROUP BY
+    c.first_name,
+    c.last_name
+ORDER BY
+    average_rental_duration DESC
+LIMIT
+    10;
+
 -- Compute the total rental duration for each movie and identify the movies rented for the longest total duration.
 -- Identify the most rented category in the last 6 months and list the total rentals for that category.
 -- Find the staff members who generated the most revenue and list their total earnings.
