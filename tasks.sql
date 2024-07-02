@@ -151,6 +151,18 @@ LIMIT
     10;
 
 -- Compute the total rental duration for each movie and identify the movies rented for the longest total duration.
+SELECT
+    f.title,
+    SUM(r.return_date - r.rental_date) AS total_rental_duration
+FROM
+    rental AS r
+    JOIN inventory AS i ON i.inventory_id = r.inventory_id
+    JOIN film AS f ON f.film_id = i.film_id
+GROUP BY
+    f.title
+ORDER BY
+    total_rental_duration DESC;
+
 -- Identify the most rented category in the last 6 months and list the total rentals for that category.
 -- Find the staff members who generated the most revenue and list their total earnings.
 -- Calculate each customer's total spending, rental count, and average spending.
