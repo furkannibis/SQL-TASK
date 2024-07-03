@@ -214,6 +214,20 @@ GROUP BY
     c.last_name;
 
 -- Identify the top 10 movies with the longest average rental durations.
+SELECT
+    f.title,
+    AVG(r.return_date - r.rental_date) AS average_rental_duration
+FROM
+    rental AS r
+    JOIN inventory AS i ON r.inventory_id = i.inventory_id
+    JOIN film AS f ON i.film_id = f.film_id
+GROUP BY
+    f.title
+ORDER BY
+    average_rental_duration DESC
+LIMIT
+    10;
+
 -- Compare the total rental revenue for movies rented in 2005 versus 2006.
 -- Determine which cities have the most rentals and list the total rental counts for each city.
 -- Calculate the average rental duration for each actor's movies.
