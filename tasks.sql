@@ -200,6 +200,19 @@ LIMIT
     1;
 
 -- Calculate each customer's total spending, rental count, and average spending.
+SELECT
+    c.first_name,
+    c.last_name,
+    SUM(p.amount) AS total_spending,
+    COUNT(p.payment_id) AS rental_count,
+    AVG(p.amount) AS average_spending
+FROM
+    payment AS p
+    JOIN customer AS c ON c.customer_id = p.customer_id
+GROUP BY
+    c.first_name,
+    c.last_name;
+
 -- Identify the top 10 movies with the longest average rental durations.
 -- Compare the total rental revenue for movies rented in 2005 versus 2006.
 -- Determine which cities have the most rentals and list the total rental counts for each city.
