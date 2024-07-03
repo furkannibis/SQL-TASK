@@ -164,6 +164,25 @@ ORDER BY
     total_rental_duration DESC;
 
 -- Identify the most rented category in the last 6 months and list the total rentals for that category.
+SELECT
+    c.name AS category,
+    COUNT(*) AS rental_count
+FROM
+    rental AS r
+    JOIN inventory AS i ON i.inventory_id = r.inventory_id
+    JOIN film AS f ON f.film_id = i.film_id
+    JOIN film_category AS fc ON fc.film_id = f.film_id
+    JOIN category AS c ON c.category_id = fc.category_id
+WHERE
+    r.rental_date BETWEEN DATE '2006-01-01' - INTERVAL '6 month'
+    AND DATE '2006-01-01' -- You should use NOW but we ARE IN 2024
+GROUP BY
+    c.name
+ORDER BY
+    COUNT(*) DESC
+LIMIT
+    1;
+
 -- Find the staff members who generated the most revenue and list their total earnings.
 -- Calculate each customer's total spending, rental count, and average spending.
 -- Identify the top 10 movies with the longest average rental durations.
