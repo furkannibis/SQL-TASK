@@ -184,6 +184,21 @@ LIMIT
     1;
 
 -- Find the staff members who generated the most revenue and list their total earnings.
+SELECT
+    s.first_name,
+    s.last_name,
+    SUM(p.amount) AS total_earnings
+FROM
+    staff AS s
+    JOIN payment AS p ON p.staff_id = s.staff_id
+GROUP BY
+    s.first_name,
+    s.last_name
+ORDER BY
+    total_earnings DESC
+LIMIT
+    1;
+
 -- Calculate each customer's total spending, rental count, and average spending.
 -- Identify the top 10 movies with the longest average rental durations.
 -- Compare the total rental revenue for movies rented in 2005 versus 2006.
