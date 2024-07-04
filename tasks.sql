@@ -251,6 +251,19 @@ ORDER BY
     rental_year;
 
 -- Determine which cities have the most rentals and list the total rental counts for each city.
+SELECT
+    ci.city,
+    COUNT(*) AS rental_count_per_city
+FROM
+    rental AS r
+    JOIN customer AS c ON r.customer_id = c.customer_id
+    JOIN address AS a ON c.address_id = a.address_id
+    JOIN city AS ci ON a.city_id = ci.city_id
+GROUP BY
+    ci.city
+ORDER BY
+    rental_count_per_city DESC;
+
 -- Calculate the average rental duration for each actor's movies.
 -- Compute the total number of movies and total rental duration for each category.
 -- Find movies rented at least 10 times and their total revenue.
