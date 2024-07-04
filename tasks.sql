@@ -229,6 +229,27 @@ LIMIT
     10;
 
 -- Compare the total rental revenue for movies rented in 2005 versus 2006.
+SELECT
+    EXTRACT(
+        YEAR
+        FROM
+            r.rental_date
+    ) AS rental_year,
+    SUM(p.amount) AS total_revenue
+FROM
+    rental AS r
+    JOIN payment AS p ON r.rental_id = p.rental_id
+WHERE
+    EXTRACT(
+        YEAR
+        FROM
+            r.rental_date
+    ) IN (2005, 2006)
+GROUP BY
+    rental_year
+ORDER BY
+    rental_year;
+
 -- Determine which cities have the most rentals and list the total rental counts for each city.
 -- Calculate the average rental duration for each actor's movies.
 -- Compute the total number of movies and total rental duration for each category.
