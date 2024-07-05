@@ -265,6 +265,20 @@ ORDER BY
     rental_count_per_city DESC;
 
 -- Calculate the average rental duration for each actor's movies.
+SELECT
+    CONCAT(a.first_name, ' ', a.last_name) AS "Actor Name",
+    AVG(r.return_date - r.rental_date) AS "Average Rental Duration"
+FROM
+    rental AS r
+    JOIN inventory AS i ON r.inventory_id = i.inventory_id
+    JOIN film AS f ON i.film_id = f.film_id
+    JOIN film_actor AS fa ON f.film_id = fa.film_id
+    JOIN actor AS a ON fa.actor_id = a.actor_id
+GROUP BY
+    1
+ORDER BY
+    "Average Rental Duration" DESC;
+
 -- Compute the total number of movies and total rental duration for each category.
 -- Find movies rented at least 10 times and their total revenue.
 -- Identify the top 10 movies with the longest rental durations.
