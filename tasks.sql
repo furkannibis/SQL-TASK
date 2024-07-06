@@ -437,6 +437,23 @@ WHERE
     rank <= 3;
 
 -- Find the top 5 customers by total spending and list their total spending amounts.
+SELECT
+    c.first_name,
+    c.last_name,
+    SUM(p.amount) AS customer_amount
+FROM
+    customer AS c
+    JOIN rental AS r ON r.customer_id = c.customer_id
+    JOIN payment AS p ON r.rental_id = p.rental_id
+GROUP BY
+    c.customer_id,
+    c.first_name,
+    c.last_name
+ORDER BY
+    customer_amount DESC
+LIMIT
+    5;
+
 -- Identify customers who rented the fewest movies and list their total rentals.
 -- Calculate each staff member's average rental duration and total rentals.
 -- Compute the total rental duration for each actor's movies.
