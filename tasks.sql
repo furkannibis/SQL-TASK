@@ -328,6 +328,30 @@ LIMIT
     10;
 
 -- Calculate each customer's total movie rentals and total spending in the last year.
+SELECT
+    c.first_name,
+    c.last_name,
+    COUNT(DISTINCT r.rental_id) AS movie_rental_count,
+    SUM(p.amount) AS total_payment
+FROM
+    customer AS c
+    JOIN payment AS p ON c.customer_id = p.customer_id
+    JOIN rental AS r ON p.rental_id = r.rental_id
+    JOIN inventory AS i ON r.inventory_id = i.inventory_id
+    JOIN film AS f ON i.film_id = f.film_id
+WHERE
+    EXTRACT(
+        YEAR
+        FROM
+            r.rental_date
+    ) = 2005
+GROUP BY
+    c.first_name,
+    c.last_name
+ORDER BY
+    movie_rental_count DESC,
+    total_payment DESC;
+
 -- Compute the total rental duration for each staff member.
 -- List the top 5 actors by rental count and their total rentals.
 -- Find all movies rented in the last year and compute their total revenue.
