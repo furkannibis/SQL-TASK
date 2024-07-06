@@ -832,6 +832,18 @@ LIMIT
     10;
 
 -- Find the top 5 customers by total spending in the last year.
+   SELECT c.first_name, c.last_name, SUM(p.amount) AS total_spending
+   FROM customer AS c
+   JOIN rental AS r
+   ON c.customer_id = r.customer_id
+   JOIN payment AS p
+   ON r.rental_id = p.rental_id
+   WHERE EXTRACT(YEAR FROM r.rental_date) = 2005
+   GROUP BY c.customer_id, c.first_name, c.last_name
+   ORDER BY total_spending DESC
+   LIMIT 5;
+   
+   
 -- Identify the top 5 most rented categories and their total revenue.
 -- Determine which actors appear in the most movies and list their total rentals.
 -- Find all movies rented in the last year and their total rental counts.
