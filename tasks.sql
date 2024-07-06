@@ -749,10 +749,45 @@ LIMIT
     10;
 
 -- Identify the least rented movies in each category and list their total rentals.
--- List customers who rented the fewest movies and their total spending.
--- Identify movies rented at least 10 times and their total revenue.
--- Identify the top 10 movies by total rental duration.
--- Find the top 5 customers by total spending in the last year.
--- Identify the top 5 most rented categories and their total revenue.
--- Determine which actors appear in the most movies and list their total rentals.
--- Find all movies rented in the last year and their total rental counts.
+WITH count_table AS (
+    SELECT
+        name,
+        title,
+        COUNT(*) AS rental_count,
+        ROW_NUMBER() OVER(
+            PARTITION BY name
+            ORDER BY
+                COUNT(title)
+        ) AS rn
+    FROM
+        (
+            SELECT
+                c.name,
+                f.title
+            FROM
+                category AS c
+                JOIN film_category AS fc ON c.category_id = fc.category_id
+                JOIN film AS f ON fc.film_id = f.film_id
+                JOIN inventory AS i ON f.film_id = i.film_id
+                JOIN rental AS r ON i.inventory_id = r.inventory_id
+        ) AS nt
+    GROUP BY
+        name,
+        title
+)
+SELECT
+    name,
+    title,
+    rental_count
+FROM
+    count_table
+WHERE
+    rn = 1 
+    
+    -- List customers who rented the fewest movies and their total spending.
+    -- Identify movies rented at least 10 times and their total revenue.
+    -- Identify the top 10 movies by total rental duration.
+    -- Find the top 5 customers by total spending in the last year.
+    -- Identify the top 5 most rented categories and their total revenue.
+    -- Determine which actors appear in the most movies and list their total rentals.
+    -- Find all movies rented in the last year and their total rental counts.
