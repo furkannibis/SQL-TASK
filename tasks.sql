@@ -280,6 +280,21 @@ ORDER BY
     "Average Rental Duration" DESC;
 
 -- Compute the total number of movies and total rental duration for each category.
+SELECT
+    c.name AS Category,
+    COUNT(DISTINCT f.film_id) AS Movie_Count,
+    AVG(r.return_date - r.rental_date) AS Average_Rental_Duration
+FROM
+    film AS f
+    JOIN film_category AS fc ON f.film_id = fc.film_id
+    JOIN category AS c ON fc.category_id = c.category_id
+    JOIN inventory AS i ON i.film_id = fc.film_id
+    JOIN rental AS r ON r.inventory_id = i.inventory_id
+GROUP BY
+    c.name
+ORDER BY
+    c.name;
+
 -- Find movies rented at least 10 times and their total revenue.
 -- Identify the top 10 movies with the longest rental durations.
 -- Calculate each customer's total movie rentals and total spending in the last year.
