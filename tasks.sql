@@ -783,8 +783,27 @@ FROM
     count_table
 WHERE
     rn = 1 
+
+-- List customers who rented the fewest movies and their total spending.
+SELECT
+    c.first_name,
+    c.last_name,
+    COUNT(f.film_id) AS rented_film_count,
+    SUM(amount) AS total_spending
+FROM
+    customer AS c
+    JOIN rental AS r ON c.customer_id = r.customer_id
+    JOIN payment AS p ON r.rental_id = p.rental_id
+    JOIN inventory AS i ON r.inventory_id = i.inventory_id
+    JOIN film AS f ON i.film_id = f.film_id
+GROUP BY
+    c.customer_id,
+    c.first_name,
+    c.last_name
+ORDER BY
+    rented_film_count,
+    total_spending DESC 
     
-    -- List customers who rented the fewest movies and their total spending.
     -- Identify movies rented at least 10 times and their total revenue.
     -- Identify the top 10 movies by total rental duration.
     -- Find the top 5 customers by total spending in the last year.
