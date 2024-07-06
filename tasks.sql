@@ -804,7 +804,22 @@ ORDER BY
     rented_film_count,
     total_spending DESC 
     
-    -- Identify movies rented at least 10 times and their total revenue.
+-- Identify movies rented at least 10 times and their total revenue.
+SELECT
+    f.title,
+    SUM(p.amount) AS total_revenue
+FROM
+    rental AS r
+    JOIN inventory AS i ON r.inventory_id = i.inventory_id
+    JOIN film AS f ON i.film_id = f.film_id
+    JOIN payment AS p ON r.rental_id = p.rental_id
+GROUP BY
+    f.title
+HAVING
+    COUNT(r.rental_id) >= 10
+ORDER BY
+    total_revenue DESC 
+    
     -- Identify the top 10 movies by total rental duration.
     -- Find the top 5 customers by total spending in the last year.
     -- Identify the top 5 most rented categories and their total revenue.
