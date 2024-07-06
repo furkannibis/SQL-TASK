@@ -712,14 +712,28 @@ GROUP BY
 ORDER BY
     rental_counts DESC,
     revenue DESC;
-    
-    -- Find all movies rented in the last year and compute their average rental durations.
-    -- List the top 10 actors by total rental count.
-    -- Identify the least rented movies in each category and list their total rentals.
-    -- List customers who rented the fewest movies and their total spending.
-    -- Identify movies rented at least 10 times and their total revenue.
-    -- Identify the top 10 movies by total rental duration.
-    -- Find the top 5 customers by total spending in the last year.
-    -- Identify the top 5 most rented categories and their total revenue.
-    -- Determine which actors appear in the most movies and list their total rentals.
-    -- Find all movies rented in the last year and their total rental counts.
+
+-- Find all movies rented in the last year and compute their average rental durations.
+SELECT
+    f.title,
+    AVG(r.return_date - r.rental_date) AS average_rental_duration
+FROM
+    rental AS r
+    JOIN inventory AS i ON r.inventory_id = i.inventory_id
+    JOIN film AS f ON i.film_id = f.film_id
+WHERE
+    DATE_TRUNC('year', r.rental_date) = DATE '2005-01-01'
+GROUP BY
+    f.title
+ORDER BY
+    average_rental_duration DESC;
+
+-- List the top 10 actors by total rental count.
+-- Identify the least rented movies in each category and list their total rentals.
+-- List customers who rented the fewest movies and their total spending.
+-- Identify movies rented at least 10 times and their total revenue.
+-- Identify the top 10 movies by total rental duration.
+-- Find the top 5 customers by total spending in the last year.
+-- Identify the top 5 most rented categories and their total revenue.
+-- Determine which actors appear in the most movies and list their total rentals.
+-- Find all movies rented in the last year and their total rental counts.
