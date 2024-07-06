@@ -644,6 +644,22 @@ LIMIT
     5;
 
 -- Find the top customer by total rentals and calculate their total spending.
+SELECT
+    c.first_name,
+    c.last_name,
+    COUNT(r.rental_id) AS total_rentals,
+    SUM(p.amount) AS total_spending
+FROM
+    customer AS c
+    JOIN rental AS r ON c.customer_id = r.customer_id
+    JOIN payment AS p ON r.rental_id = p.rental_id
+GROUP BY
+    c.customer_id,
+    c.first_name,
+    c.last_name
+ORDER BY
+    total_rentals DESC;
+
 -- Compute the average rental duration for each staff member.
 -- Identify the top 5 most rented categories and their total rentals.
 -- Calculate the total rental counts and revenue for each actor's movies.
