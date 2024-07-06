@@ -313,6 +313,20 @@ ORDER BY
     f.title;
 
 -- Identify the top 10 movies with the longest rental durations.
+SELECT
+    f.title AS film_title,
+    AVG(r.return_date - r.rental_date) AS rental_duration
+FROM
+    rental AS r
+    JOIN inventory AS i ON r.inventory_id = i.inventory_id
+    JOIN film AS f ON i.film_id = f.film_id
+GROUP BY
+    f.title
+ORDER BY
+    rental_duration DESC
+LIMIT
+    10;
+
 -- Calculate each customer's total movie rentals and total spending in the last year.
 -- Compute the total rental duration for each staff member.
 -- List the top 5 actors by rental count and their total rentals.
