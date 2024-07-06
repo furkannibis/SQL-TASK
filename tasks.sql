@@ -455,6 +455,22 @@ LIMIT
     5;
 
 -- Identify customers who rented the fewest movies and list their total rentals.
+SELECT
+    c.first_name,
+    c.last_name,
+    COUNT(r.rental_id) AS total_rental
+FROM
+    rental AS r
+    JOIN customer AS c ON r.customer_id = c.customer_id
+GROUP BY
+    c.customer_id,
+    c.first_name,
+    c.last_name
+ORDER BY
+    total_rental
+LIMIT
+    5;
+
 -- Calculate each staff member's average rental duration and total rentals.
 -- Compute the total rental duration for each actor's movies.
 -- Calculate the total number of movies and total rental duration for each category.
