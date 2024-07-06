@@ -367,6 +367,25 @@ ORDER BY
     total_rental_duration DESC;
 
 -- List the top 5 actors by rental count and their total rentals.
+SELECT
+    a.first_name,
+    a.last_name,
+    COUNT(r.rental_id) AS rental_count
+FROM
+    actor AS a
+    JOIN film_actor AS fa ON a.actor_id = fa.actor_id
+    JOIN film AS f ON fa.film_id = f.film_id
+    JOIN inventory AS i ON f.film_id = i.film_id
+    JOIN rental AS r ON i.inventory_id = r.inventory_id
+GROUP BY
+    a.actor_id,
+    a.first_name,
+    a.last_name
+ORDER BY
+    rental_count DESC
+LIMIT
+    5;
+
 -- Find all movies rented in the last year and compute their total revenue.
 -- Identify the top 3 most rented movies in each category and list their rental counts.
 -- Find the top 5 customers by total spending and list their total spending amounts.
