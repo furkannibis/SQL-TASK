@@ -874,4 +874,25 @@ LIMIT
     5;
 
 -- Determine which actors appear in the most movies and list their total rentals.
+SELECT
+    a.first_name,
+    a.last_name,
+    COUNT(DISTINCT f.film_id) AS total_movie_count,
+    COUNT(r.rental_id) AS total_rental
+FROM
+    actor AS a
+    JOIN film_actor AS fa ON a.actor_id = fa.actor_id
+    JOIN film AS f ON fa.film_id = f.film_id
+    JOIN inventory AS i ON f.film_id = i.film_id
+    JOIN rental AS r ON i.inventory_id = r.inventory_id
+GROUP BY
+    a.actor_id,
+    a.first_name,
+    a.last_name
+ORDER BY
+    total_movie_count DESC,
+    total_rental DESC
+LIMIT
+    1;
+
 -- Find all movies rented in the last year and their total rental counts.
