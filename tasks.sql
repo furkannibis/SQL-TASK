@@ -353,6 +353,19 @@ ORDER BY
     total_payment DESC;
 
 -- Compute the total rental duration for each staff member.
+SELECT
+    s.first_name,
+    s.last_name,
+    SUM(r.return_date - r.rental_date) AS total_rental_duration
+FROM
+    rental AS r
+    JOIN staff AS s ON r.staff_id = s.staff_id
+GROUP BY
+    s.first_name,
+    s.last_name
+ORDER BY
+    total_rental_duration DESC;
+
 -- List the top 5 actors by rental count and their total rentals.
 -- Find all movies rented in the last year and compute their total revenue.
 -- Identify the top 3 most rented movies in each category and list their rental counts.
