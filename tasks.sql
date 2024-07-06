@@ -472,6 +472,19 @@ LIMIT
     5;
 
 -- Calculate each staff member's average rental duration and total rentals.
+SELECT
+    s.first_name,
+    s.last_name,
+    AVG(r.return_date - r.rental_date) AS average_rental_duration,
+    COUNT(r.rental_id) AS total_rentals
+FROM
+    rental AS r
+    JOIN staff AS s ON r.staff_id = s.staff_id
+GROUP BY
+    s.staff_id,
+    s.first_name,
+    s.last_name;
+
 -- Compute the total rental duration for each actor's movies.
 -- Calculate the total number of movies and total rental duration for each category.
 -- Identify movies rented at least 10 times and their average rental durations.
