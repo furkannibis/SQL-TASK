@@ -606,9 +606,7 @@ GROUP BY
     c.last_name
 ORDER BY
     total_spending DESC,
-    average_spending DESC 
-
--- Identify the top 5 most rented categories and list their total rentals.
+    average_spending DESC -- Identify the top 5 most rented categories and list their total rentals.
 SELECT
     c.name,
     COUNT(r.rental_id) AS rent_count
@@ -626,6 +624,25 @@ LIMIT
     5;
 
 -- Identify the top 5 actors by rental count and their total rentals.
+SELECT
+    a.first_name,
+    a.last_name,
+    COUNT(r.rental_id) AS total_rentals
+FROM
+    rental AS r
+    JOIN inventory AS i ON r.inventory_id = i.inventory_id
+    JOIN film AS f ON i.film_id = f.film_id
+    JOIN film_actor AS fa ON f.film_id = fa.film_id
+    JOIN actor AS a ON fa.actor_id = a.actor_id
+GROUP BY
+    a.actor_id,
+    a.first_name,
+    a.last_name
+ORDER BY
+    total_rentals DESC
+LIMIT
+    5;
+
 -- Find the top customer by total rentals and calculate their total spending.
 -- Compute the average rental duration for each staff member.
 -- Identify the top 5 most rented categories and their total rentals.
