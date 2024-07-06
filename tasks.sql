@@ -530,77 +530,105 @@ GROUP BY
     c.name
 ORDER BY
     total_movies DESC,
-    total_rental_duration_days DESC
-    
-    -- Identify movies rented at least 10 times and their average rental durations.
-    -- Identify the top 5 movies by total rental duration.
-    -- Calculate each customer's total spending and average spending in the last year.
-    -- Compute the total rental duration for each staff member.
-    -- Identify the top 5 most rented categories and list their total rentals.
-    -- Calculate the total rental counts and revenue for each actor's movies.
-    -- Find all movies rented in the last year and compute their average rental durations.
-    -- List the top 10 actors by total rental count.
-    -- Identify the least rented movies in each category and list their total rentals.
-    -- Identify the top 10 movies by total rental duration.
-    -- List customers who rented the fewest movies and their total spending.
-    -- Calculate each staff member's average rental duration and total rentals.
-    -- Calculate the average rental duration for each actor's movies.
-    -- Identify movies rented at least 10 times and their total revenue.
-    -- Identify the top 10 movies by total rental duration.
-    -- Find the top 5 customers by total spending in the last year.
-    -- Compute the total rental duration for each staff member.
-    -- Identify the top 5 most rented categories and their total revenue.
-    -- Determine which actors appear in the most movies and list their total rentals.
-    -- Find all movies rented in the last year and their total rental counts.
-    -- Identify the top 5 actors by rental count and their total rentals.
-    -- Identify the least rented movies in each category and list their total rentals.
-    -- Identify the top 10 movies by total rental duration.
-    -- List customers who rented the fewest movies and their total spending.
-    -- Calculate each staff member's average rental duration and total rentals.
-    -- Compute the total rental duration for each actor's movies.
-    -- Identify movies rented at least 10 times and their average rental durations.
-    -- Identify the top 5 movies by total rental duration.
-    -- Find the top customer by total rentals and calculate their total spending.
-    -- Compute the average rental duration for each staff member.
-    -- Identify the top 5 most rented categories and their total rentals.
-    -- Calculate the total rental counts and revenue for each actor's movies.
-    -- Find all movies rented in the last year and compute their average rental durations.
-    -- List the top 10 actors by total rental count.
-    -- Identify the least rented movies in each category and list their total rentals.
-    -- Identify the top 10 movies by total rental duration.
-    -- List customers who rented the fewest movies and their total spending.
-    -- Calculate each staff member's average rental duration and total rentals.
-    -- Calculate the average rental duration for each actor's movies.
-    -- Identify movies rented at least 10 times and their total revenue.
-    -- Identify the top 10 movies by total rental duration.
-    -- Find the top 5 customers by total spending in the last year.
-    -- Compute the total rental duration for each staff member.
-    -- Identify the top 5 most rented categories and their total revenue.
-    -- Determine which actors appear in the most movies and list their total rentals.
-    -- Find all movies rented in the last year and their total rental counts.
-    -- Identify the top 5 actors by rental count and their total rentals.
-    -- Identify the least rented movies in each category and list their total rentals.
-    -- Identify the top 10 movies by total rental duration.
-    -- List customers who rented the fewest movies and their total spending.
-    -- Calculate each staff member's average rental duration and total rentals.
-    -- Compute the total rental duration for each actor's movies.
-    -- Identify movies rented at least 10 times and their average rental durations.
-    -- Identify the top 5 movies by total rental duration.
-    -- Find the top customer by total rentals and calculate their total spending.
-    -- Compute the average rental duration for each staff member.
-    -- Identify the top 5 most rented categories and their total rentals.
-    -- Calculate the total rental counts and revenue for each actor's movies.
-    -- Find all movies rented in the last year and compute their average rental durations.
-    -- List the top 10 actors by total rental count.
-    -- Identify the least rented movies in each category and list their total rentals.
-    -- Identify the top 10 movies by total rental duration.
-    -- List customers who rented the fewest movies and their total spending.
-    -- Calculate each staff member's average rental duration and total rentals.
-    -- Calculate the average rental duration for each actor's movies.
-    -- Identify movies rented at least 10 times and their total revenue.
-    -- Identify the top 10 movies by total rental duration.
-    -- Find the top 5 customers by total spending in the last year.
-    -- Compute the total rental duration for each staff member.
-    -- Identify the top 5 most rented categories and their total revenue.
-    -- Determine which actors appear in the most movies and list their total rentals.
-    -- Find all movies rented in the last year and their total rental counts.
+    total_rental_duration_days DESC 
+
+-- Identify movies rented at least 10 times and their average rental durations.
+SELECT
+    f.title,
+    COUNT(r.rental_id) AS rental_count,
+    ROUND(
+        (
+            AVG(
+                EXTRACT(
+                    EPOCH
+                    FROM
+                        (r.return_date - r.rental_date)
+                ) / (24 * 3600)
+            )
+        ),
+        2
+    ) AS average_rental_days
+FROM
+    film AS f
+    JOIN inventory AS i ON f.film_id = i.film_id
+    JOIN rental AS r ON i.inventory_id = r.inventory_id
+GROUP BY
+    f.film_id,
+    f.title
+HAVING
+    COUNT(r.rental_id) >= 10
+ORDER BY
+    rental_count DESC,
+    average_rental_days DESC;
+
+-- Identify the top 5 movies by total rental duration.
+-- Calculate each customer's total spending and average spending in the last year.
+-- Compute the total rental duration for each staff member.
+-- Identify the top 5 most rented categories and list their total rentals.
+-- Calculate the total rental counts and revenue for each actor's movies.
+-- Find all movies rented in the last year and compute their average rental durations.
+-- List the top 10 actors by total rental count.
+-- Identify the least rented movies in each category and list their total rentals.
+-- Identify the top 10 movies by total rental duration.
+-- List customers who rented the fewest movies and their total spending.
+-- Calculate each staff member's average rental duration and total rentals.
+-- Calculate the average rental duration for each actor's movies.
+-- Identify movies rented at least 10 times and their total revenue.
+-- Identify the top 10 movies by total rental duration.
+-- Find the top 5 customers by total spending in the last year.
+-- Compute the total rental duration for each staff member.
+-- Identify the top 5 most rented categories and their total revenue.
+-- Determine which actors appear in the most movies and list their total rentals.
+-- Find all movies rented in the last year and their total rental counts.
+-- Identify the top 5 actors by rental count and their total rentals.
+-- Identify the least rented movies in each category and list their total rentals.
+-- Identify the top 10 movies by total rental duration.
+-- List customers who rented the fewest movies and their total spending.
+-- Calculate each staff member's average rental duration and total rentals.
+-- Compute the total rental duration for each actor's movies.
+-- Identify movies rented at least 10 times and their average rental durations.
+-- Identify the top 5 movies by total rental duration.
+-- Find the top customer by total rentals and calculate their total spending.
+-- Compute the average rental duration for each staff member.
+-- Identify the top 5 most rented categories and their total rentals.
+-- Calculate the total rental counts and revenue for each actor's movies.
+-- Find all movies rented in the last year and compute their average rental durations.
+-- List the top 10 actors by total rental count.
+-- Identify the least rented movies in each category and list their total rentals.
+-- Identify the top 10 movies by total rental duration.
+-- List customers who rented the fewest movies and their total spending.
+-- Calculate each staff member's average rental duration and total rentals.
+-- Calculate the average rental duration for each actor's movies.
+-- Identify movies rented at least 10 times and their total revenue.
+-- Identify the top 10 movies by total rental duration.
+-- Find the top 5 customers by total spending in the last year.
+-- Compute the total rental duration for each staff member.
+-- Identify the top 5 most rented categories and their total revenue.
+-- Determine which actors appear in the most movies and list their total rentals.
+-- Find all movies rented in the last year and their total rental counts.
+-- Identify the top 5 actors by rental count and their total rentals.
+-- Identify the least rented movies in each category and list their total rentals.
+-- Identify the top 10 movies by total rental duration.
+-- List customers who rented the fewest movies and their total spending.
+-- Calculate each staff member's average rental duration and total rentals.
+-- Compute the total rental duration for each actor's movies.
+-- Identify movies rented at least 10 times and their average rental durations.
+-- Identify the top 5 movies by total rental duration.
+-- Find the top customer by total rentals and calculate their total spending.
+-- Compute the average rental duration for each staff member.
+-- Identify the top 5 most rented categories and their total rentals.
+-- Calculate the total rental counts and revenue for each actor's movies.
+-- Find all movies rented in the last year and compute their average rental durations.
+-- List the top 10 actors by total rental count.
+-- Identify the least rented movies in each category and list their total rentals.
+-- Identify the top 10 movies by total rental duration.
+-- List customers who rented the fewest movies and their total spending.
+-- Calculate each staff member's average rental duration and total rentals.
+-- Calculate the average rental duration for each actor's movies.
+-- Identify movies rented at least 10 times and their total revenue.
+-- Identify the top 10 movies by total rental duration.
+-- Find the top 5 customers by total spending in the last year.
+-- Compute the total rental duration for each staff member.
+-- Identify the top 5 most rented categories and their total revenue.
+-- Determine which actors appear in the most movies and list their total rentals.
+-- Find all movies rented in the last year and their total rental counts.
