@@ -896,3 +896,20 @@ LIMIT
     1;
 
 -- Find all movies rented in the last year and their total rental counts.
+SELECT
+    f.title,
+    COUNT(*) AS total_rental_count
+FROM
+    rental AS r
+    JOIN inventory AS i ON r.inventory_id = i.inventory_id
+    JOIN film AS f ON i.film_id = f.film_id
+WHERE
+    EXTRACT(
+        YEAR
+        FROM
+            r.rental_date
+    ) = 2005
+GROUP BY
+    f.title
+ORDER BY
+    total_rental_count DESC;
