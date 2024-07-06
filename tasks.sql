@@ -486,6 +486,23 @@ GROUP BY
     s.last_name;
 
 -- Compute the total rental duration for each actor's movies.
+SELECT
+    a.first_name,
+    a.last_name,
+    SUM(r.return_date - r.rental_date) AS total_rental_duration
+FROM
+    actor AS a
+    JOIN film_actor AS fa ON a.actor_id = fa.actor_id
+    JOIN film AS f ON fa.film_id = f.film_id
+    JOIN inventory AS i ON f.film_id = i.film_id
+    JOIN rental AS r ON i.inventory_id = r.inventory_id
+GROUP BY
+    a.actor_id,
+    a.first_name,
+    a.last_name
+ORDER BY
+    total_rental_duration DESC;
+
 -- Calculate the total number of movies and total rental duration for each category.
 -- Identify movies rented at least 10 times and their average rental durations.
 -- Identify the top 5 movies by total rental duration.
