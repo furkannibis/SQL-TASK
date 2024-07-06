@@ -296,6 +296,22 @@ ORDER BY
     c.name;
 
 -- Find movies rented at least 10 times and their total revenue.
+SELECT
+    f.title AS film_title,
+    COUNT(*) AS film_rental_count,
+    SUM(p.amount) AS film_total_revenue
+FROM
+    rental AS r
+    JOIN payment AS p ON r.rental_id = p.rental_id
+    JOIN inventory AS i ON r.inventory_id = i.inventory_id
+    JOIN film AS f ON i.film_id = f.film_id
+GROUP BY
+    f.title
+HAVING
+    COUNT(*) >= 10
+ORDER BY
+    f.title;
+
 -- Identify the top 10 movies with the longest rental durations.
 -- Calculate each customer's total movie rentals and total spending in the last year.
 -- Compute the total rental duration for each staff member.
