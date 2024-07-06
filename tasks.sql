@@ -676,6 +676,22 @@ ORDER BY
     average_rental_duration DESC;
 
 -- Identify the top 5 most rented categories and their total rentals.
+SELECT
+    c.name,
+    COUNT(r.rental_id) AS total_rental_count
+FROM
+    category AS c
+    JOIN film_category AS fc ON c.category_id = fc.category_id
+    JOIN film AS f ON fc.film_id = f.film_id
+    JOIN inventory AS i ON f.film_id = i.film_id
+    JOIN rental AS r ON i.inventory_id = r.inventory_id
+GROUP BY
+    c.name
+ORDER BY
+    total_rental_count DESC
+LIMIT
+    5;
+
 -- Calculate the total rental counts and revenue for each actor's movies.
 -- Find all movies rented in the last year and compute their average rental durations.
 -- List the top 10 actors by total rental count.
