@@ -814,9 +814,7 @@ GROUP BY
 HAVING
     COUNT(r.rental_id) >= 10
 ORDER BY
-    total_revenue DESC 
-    
--- Identify the top 10 movies by total rental duration.
+    total_revenue DESC -- Identify the top 10 movies by total rental duration.
 SELECT
     f.title,
     SUM(r.return_date - r.rental_date) AS total_rental_duration
@@ -832,18 +830,48 @@ LIMIT
     10;
 
 -- Find the top 5 customers by total spending in the last year.
-   SELECT c.first_name, c.last_name, SUM(p.amount) AS total_spending
-   FROM customer AS c
-   JOIN rental AS r
-   ON c.customer_id = r.customer_id
-   JOIN payment AS p
-   ON r.rental_id = p.rental_id
-   WHERE EXTRACT(YEAR FROM r.rental_date) = 2005
-   GROUP BY c.customer_id, c.first_name, c.last_name
-   ORDER BY total_spending DESC
-   LIMIT 5;
-   
-   
+SELECT
+    c.first_name,
+    c.last_name,
+    SUM(p.amount) AS total_spending
+FROM
+    customer AS c
+    JOIN rental AS r ON c.customer_id = r.customer_id
+    JOIN payment AS p ON r.rental_id = p.rental_id
+WHERE
+    EXTRACT(
+        YEAR
+        FROM
+            r.rental_date
+    ) = 2005
+GROUP BY
+    c.customer_id,
+    c.first_name,
+    c.last_name
+ORDER BY
+    total_spending DESC
+LIMIT
+    5;
+
 -- Identify the top 5 most rented categories and their total revenue.
+SELECT
+    c.name,
+    COUNT(r.rental_id) AS rent_count,
+    SUM(p.amount) AS total_revenue
+FROM
+    rental AS r
+    JOIN inventory AS i ON r.inventory_id = i.inventory_id
+    JOIN film AS f ON i.film_id = f.film_id
+    JOIN film_category AS fc ON f.film_id = fc.film_id
+    JOIN category AS c ON fc.category_id = c.category_id
+    JOIN payment AS p ON r.rental_id = p.rental_id
+GROUP BY
+    c.name
+ORDER BY
+    rent_count DESC,
+    total_revenue DESC
+LIMIT
+    5;
+
 -- Determine which actors appear in the most movies and list their total rentals.
 -- Find all movies rented in the last year and their total rental counts.
