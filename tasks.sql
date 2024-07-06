@@ -530,9 +530,7 @@ GROUP BY
     c.name
 ORDER BY
     total_movies DESC,
-    total_rental_duration_days DESC 
-
--- Identify movies rented at least 10 times and their average rental durations.
+    total_rental_duration_days DESC -- Identify movies rented at least 10 times and their average rental durations.
 SELECT
     f.title,
     COUNT(r.rental_id) AS rental_count,
@@ -562,6 +560,30 @@ ORDER BY
     average_rental_days DESC;
 
 -- Identify the top 5 movies by total rental duration.
+SELECT
+    f.title,
+    ROUND(
+        (
+            EXTRACT(
+                EPOCH
+                FROM
+                    SUM(r.return_date - r.rental_date)
+            ) / (24 * 3600)
+        ),
+        2
+    ) AS total_rental_duration
+FROM
+    film AS f
+    JOIN inventory AS i ON f.film_id = i.film_id
+    JOIN rental AS r ON i.inventory_id = r.inventory_id
+GROUP BY
+    f.film_id,
+    f.title
+ORDER BY
+    total_rental_duration DESC
+LIMIT
+    5;
+
 -- Calculate each customer's total spending and average spending in the last year.
 -- Compute the total rental duration for each staff member.
 -- Identify the top 5 most rented categories and list their total rentals.
